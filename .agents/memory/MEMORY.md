@@ -1,0 +1,9 @@
+- [Finviz Elite integration](finviz-integration.md) — export.ashx & quote_export.ashx quirks: redirects, CSV header validation, silent bad-filter behavior, 429 rate limits under fan-out.
+- [OpenAPI/orval gotchas](openapi-orval.md) — spec/codegen pitfalls that break the generated zod client.
+- [Stripe live-mode on Replit](stripe-live-mode.md) — connection returns sandbox+live items with varying key field names; select by sk_ prefix, never items[0]; backfill misses pre-existing live objects (touch them to sync).
+- [Circular webcam avatar replacement](circular-webcam-avatar-replacement.md) — cover the entire original webcam crop with a clean plate before compositing a replacement avatar.
+- [HeyGen cost control](heygen-cost-control.md) — validate framing, text, audio, and free voice previews first; require approval before paid tests or full generations.
+- [Stock name lookup](stock-name-lookup.md) — ambiguous short names must be resolved before ticker fallback; Yahoo search needs an identified client and shared in-flight cache.
+- [SEC earnings dates](sec-earnings-dates.md) — EDGAR Item 2.02 gives the official last earnings date; SEC requests need the app's public contact in User-Agent.
+- [LLM batch item identity](llm-batch-item-identity.md) — batch enrichment must round-trip stable IDs and exact source text; never trust output order for user-visible classifications.
+- [Clerk Expo Core 2 mismatch](clerk-expo-core2-mismatch.md) — Clerk Expo 2.x can resolve incompatible React/shared packages; use Clerk Expo 3.x for Expo SDK 54.

@@ -1,0 +1,462 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "-lcHkhG8kTaPqD5IO-AVc"
+uri = "file://artifacts/dualy-video/public/audio/bg_music.mp3"
+type = "audio"
+title = "background music"
+description = "Generated music: Cinematic uplifting orchestral-electronic hybrid instrumental background music scoring a fintech app promo video. Warm strings, soft piano, subtle synth pulse, 100 BPM, confident and…"
+logical_id = "80448746-189d-4d62-a43d-da57dc0de99b"
+
+[[outputs]]
+id = "L0Nc_0NBoeSEYNkjnfEyH"
+uri = "file://attached_assets/heygen/dualystocks_promo_es.mp4"
+type = "video"
+title = "Video promocional DualyStocks (español)"
+description = "Video corto con avatar generado en HeyGen: qué hace la app, con imágenes reales de mercados y voz en español."
+logical_id = "3bd52fdc-4c7b-42ef-aaf4-a0cc1deb7714"
+
+[[outputs]]
+id = "uehvCoHfLzfKitKaN5wMw"
+uri = "file://attached_assets/heygen/dualystocks_promo_es_v2.mp4"
+type = "video"
+title = "Video promocional DualyStocks v2 (español)"
+description = "Versión afinada: voz masculina y enérgica (Mateo), avatar masculino en traje, y capturas reales de la app en español con el logo."
+logical_id = "054ab02e-8c72-49f8-9bc9-7cb91cdc475e"
+
+[[outputs]]
+id = "NhT9bAByL2n5udIDCXsk1"
+uri = "file://attached_assets/heygen/dualystocks_promo_es_final.mp4"
+type = "video"
+title = "Video promocional DualyStocks (versión final editada)"
+description = "El mismo video, editado: intro con el logo grande animado sobre fondo oscuro, y voz/ritmo acelerados para más dinámica. Sin gastar créditos de HeyGen."
+logical_id = "8302742e-e118-484c-b241-3eff4eaa798a"
+
+[[outputs]]
+id = "tnLWFQdrxjwJm4ZLkaZ2g"
+uri = "file://attached_assets/heygen/dualystocks_promo_es_v3.mp4"
+type = "video"
+title = "Video promocional DualyStocks v3 (español)"
+description = "Avatar elegante estilo millonario (Armando) con voz masculina vibrante (Víctor), intro con el logo animado y ritmo acelerado, sobre capturas reales de la app en español."
+logical_id = "66adea79-d712-467a-83f6-095fc81da2c8"
+
+[[outputs]]
+id = "LikTdDi7n04BNV-es5Rai"
+uri = "file://screenshots/inicio-es.jpg"
+type = "image"
+title = "Portada (español)"
+description = "Página de inicio con el mensaje principal y los botones de registro."
+logical_id = "b62084f1-1827-4d7e-af78-55e332a32edf"
+
+[[outputs]]
+id = "z3UMUg9_r24U7Q47xdMen"
+uri = "file://screenshots/home.jpg"
+type = "image"
+title = "Portada (inglés)"
+description = "Página de inicio en inglés, por si el video lleva versión EN."
+logical_id = "ea922514-594e-4912-9db6-dde06d52a5a9"
+
+[[outputs]]
+id = "fITEGxgdBYN81iT6p2M4l"
+uri = "file://screenshots/analisis-aapl-completo-es.jpg"
+type = "image"
+title = "Análisis de Apple (completo)"
+description = "Página de análisis completa: veredicto, puntuación, gráfico, lectura algorítmica y el nuevo RSI con colores."
+logical_id = "0d1938c2-124b-4804-884b-78846101ea89"
+
+[[outputs]]
+id = "gd9Dxpon3soys35uFOB0S"
+uri = "file://screenshots/ideas-completo-es.jpg"
+type = "image"
+title = "Ideas de Inversión (completo)"
+description = "Las 3 elegidas de hoy, sectores en tendencia, filtros y la lista de Valor con bajo riesgo."
+logical_id = "c3550c76-51ab-4d67-a909-bd4dd751c7b5"
+
+[[outputs]]
+id = "9Mw3dPy8JkQjlYhdkilgH"
+uri = "file://exports/DualyStocks_Promo_Facebook_Vertical_1080x1920.mp4"
+type = "video"
+title = "Video para Facebook (vertical, 1080×1920)"
+description = "Promo de DualyStocks adaptado a formato vertical para teléfonos: video centrado con fondo difuminado, listo para Reels, Stories y el feed de Facebook."
+logical_id = "9b7f7631-8613-40f8-9977-a529e93e4a71"
+
+[[outputs]]
+id = "95QYmVE7n6F_2nV_lMioN"
+uri = "file://exports/Prueba_Kurt_sustitucion_5s.mp4"
+type = "video"
+title = "Prueba: Kurt sustituye tu cámara"
+description = "Fragmento de 5 segundos editado sobre el video original: se conserva la pantalla y tu audio, y Kurt reemplaza tu imagen dentro del mismo círculo."
+logical_id = "aaeb426e-3391-4d97-aca7-f892a470eb9a"
+content_hash = "sha256:2e233aa1e889a1aefd11d00e9dfb5d999f6faa0028fa271bfcc0078a49c0fd26"
+size = 931524
+mtime_ms = 1787133427035
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/aaeb426e-3391-4d97-aca7-f892a470eb9a/3a9fcf17-e466-4b6c-af6d-93f04c722955"
+storage_version_token = "1787133445369600"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "_lTSol9bh6B7HY3g6ExT8"
+uri = "file://exports/Prueba_Kurt_manteniendo_fondo_5s_v2.mp4"
+type = "video"
+title = "Prueba corregida: Kurt con fondo original"
+description = "Edición de 5 segundos que mantiene intactos el portal, el círculo y el fondo original; se eliminó la oficina del avatar y solo Kurt sustituye la persona visible."
+logical_id = "04511294-93f6-40bf-9003-c4aa861b940e"
+content_hash = "sha256:1b14df0c5efb31aea9528b0a064a078a2aea2bb42d721e9c43d47a6d20740be2"
+size = 945150
+mtime_ms = 1787133663628
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/04511294-93f6-40bf-9003-c4aa861b940e/d9745ead-867f-4d60-a092-28a10b8ba52e"
+storage_version_token = "1787133677481816"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "3sG71ou02SWoDom2-WMuG"
+uri = "file://exports/Prueba_Kurt_dentro_del_circulo_5s.mp4"
+type = "video"
+title = "Prueba corregida: Kurt dentro del círculo"
+description = "Kurt fue reducido, reposicionado y limitado con una máscara circular más estrecha para que ninguna parte del avatar salga del marco original."
+logical_id = "d867106d-09ae-479d-8746-99a4bc8e2edf"
+content_hash = "sha256:aa55ba3bef95cd40c9fdcb7826c85f6bfc524a6351f726b11b9a7b09a711c771"
+size = 912132
+mtime_ms = 1787133751022
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/d867106d-09ae-479d-8746-99a4bc8e2edf/ff656839-f830-4a99-99fd-c3f27d84ec79"
+storage_version_token = "1787133766909817"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "lEkLjLy6130P2Qcc3ukc8"
+uri = "file://exports/Prueba_Kurt_sin_Santiago_detras_5s.mp4"
+type = "video"
+title = "Prueba corregida: solo Kurt"
+description = "Se eliminó completamente la imagen original de Santiago antes de colocar a Kurt. Se conservan el portal, el fondo del círculo, el marco y el audio original."
+logical_id = "a14bf1d4-c556-4d2a-af83-c8503a3dca70"
+content_hash = "sha256:10bcb62a6feaef37e8224c7a4a67167ba92788b55ec3e969445809ad234d8a90"
+size = 879947
+mtime_ms = 1787135026464
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/a14bf1d4-c556-4d2a-af83-c8503a3dca70/e61da525-e441-46fa-87a7-53ab4022b989"
+storage_version_token = "1787135041966349"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "LgcukYMXQuWpmIKKycWfa"
+uri = "file://exports/Prueba_Kurt_solo_sin_capa_original_5s.mp4"
+type = "video"
+title = "Prueba nueva — solo Kurt, sin cámara original"
+description = "Versión reconstruida cubriendo por completo los 250×250 píxeles de la cámara original antes de añadir a Kurt. Las pruebas anteriores deben ignorarse."
+logical_id = "043d6170-f165-4129-aed6-0e2c1beff4af"
+content_hash = "sha256:0b4340a2545a28f614d6b99728484913ebd99bf4188c1b82936ffe7b7f5dddfa"
+size = 878087
+mtime_ms = 1787137966124
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/043d6170-f165-4129-aed6-0e2c1beff4af/2a312134-ee1c-4a35-81df-78af54fdb43a"
+storage_version_token = "1787137993229374"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "m2uVFXn-AtnT_HUIKs19l"
+uri = "file://exports/Prueba_Kurt_nuevo_video_sin_HeyGen_10s.mp4"
+type = "video"
+title = "Prueba sin coste de HeyGen — encuadre y audio"
+description = "Prueba de 10 segundos con Kurt inmóvil para validar tamaño, círculo y fondo limpio. Incluye reducción de ruido y normalización del audio original."
+logical_id = "539b061d-5be2-43f5-99a1-cc84575e890b"
+content_hash = "sha256:203a6d21adbde84921154270d18df26e9e045a71bff5e4b16f3fb47eae35a531"
+size = 593554
+mtime_ms = 1787177433101
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/539b061d-5be2-43f5-99a1-cc84575e890b/465c8dd9-c6e7-4257-8712-f72e730a4435"
+storage_version_token = "1787177483382256"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "A_Ri9Y7cS2g5xofjg-P-N"
+uri = "file://exports/transcripts/Como_analizar_acciones_con_DualyStocks_transcripcion_corregida.txt"
+type = "text"
+title = "Transcripción corregida — DualyStocks"
+description = "Transcripción completa revisada: nombres de marca, Finviz, RSI, Recom, Target Price, insiders, ETF 2x y Today’s Top 3 Picks."
+logical_id = "0035e25d-2c9b-42f5-9d4f-7bab666d5ba0"
+content_hash = "sha256:50e6712e2883202d82fc346a0cfa4b1decb8282d915623aec6616625542b13da"
+size = 5015
+mtime_ms = 1787177477319
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/0035e25d-2c9b-42f5-9d4f-7bab666d5ba0/0bf71944-6b83-4255-9dad-a1d9446bb960"
+storage_version_token = "1787177484033646"
+content_type = "text/plain"
+
+[[outputs]]
+id = "Cbf6CUNM5Puu9oDFG7aYV"
+uri = "file://exports/Kurt_voice_official_preview.mp3"
+type = "audio"
+title = "Voz oficial de Kurt — muestra gratuita"
+description = "Muestra de 5.25 segundos del catálogo de HeyGen. HeyGen la clasifica como voz masculina en inglés; no se consumieron minutos de generación."
+logical_id = "1bd5695b-a2fe-44b1-a848-cbf9947ce0d9"
+content_hash = "sha256:9cfb1f9718987666a011d3ef9889d20b3c6f44ff22dc2978a59962f466c66aa1"
+size = 84471
+mtime_ms = 1787178368236
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/1bd5695b-a2fe-44b1-a848-cbf9947ce0d9/63db648d-5a3a-4708-af14-939691d35a9e"
+storage_version_token = "1787178389923699"
+content_type = "audio/mpeg"
+
+[[outputs]]
+id = "Ezex9jcB3X2s3QoZtDl5v"
+uri = "file://exports/Como_analizar_acciones_con_DualyStocks_Kurt_mi_voz_final.mp4"
+type = "video"
+title = "Video final — Kurt con tu voz"
+description = "Video completo de 6:04.86. Conserva la grabación de pantalla, reemplaza tu cámara por Kurt dentro del círculo y mantiene tu voz original con reducción de ruido y normalización."
+logical_id = "7ed59ee8-f643-4afe-8144-5eda6a6bd672"
+content_hash = "sha256:2c467945d51ea2d8c540183256a755b691e1739c3521c155c43b995d83124a11"
+size = 22749564
+mtime_ms = 1787179255203
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/7ed59ee8-f643-4afe-8144-5eda6a6bd672/3a892e30-e0d0-423f-8800-8b488c57b9f6"
+storage_version_token = "1787179280520571"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "2pAH1-uEnBpCDMmrKvRxr"
+uri = "file://exports/Prueba_Aditya_con_voz_de_Kurt_espanol_5s.mp4"
+type = "video"
+title = "Test — avatar fresco con voz de Kurt en español"
+description = "Prueba de 5.24 segundos con Aditya en camiseta azul, voz oficial de Kurt hablando en español y montaje dentro del círculo original. No es una generación larga."
+logical_id = "fe6dfa4f-5dc6-41db-a2ab-46dbb3ddb88e"
+content_hash = "sha256:4b143507659f96cdbf46821850fbf11a44da8fec79a2338b08e4a4b8034112f4"
+size = 290248
+mtime_ms = 1787179595260
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/fe6dfa4f-5dc6-41db-a2ab-46dbb3ddb88e/af3b8351-a51b-4d59-b037-35c9dbdcf713"
+storage_version_token = "1787179614933248"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "rEwNZ5o3JrE4TQqumnhUr"
+uri = "file://exports/Prueba_Bryan_con_voz_de_Kurt_espanol_5s.mp4"
+type = "video"
+title = "Test 2 — Bryan con voz de Kurt en español"
+description = "Prueba de 5.24 segundos con Bryan Casual, la voz de Kurt ya aprobada y montaje dentro del círculo original. No es una generación larga."
+logical_id = "86bca210-5b2e-441c-9ad8-7734495a961a"
+content_hash = "sha256:abfac633a86959fd689651586a31a041894d3c4405bf740a6446333e126dceb2"
+size = 305587
+mtime_ms = 1787180156015
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/86bca210-5b2e-441c-9ad8-7734495a961a/45db0230-c3f8-47bd-9b5c-7eabd0498660"
+storage_version_token = "1787180173213325"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "m0HJRw5RYpLUR9dboH-67"
+uri = "file://exports/Prueba_mi_avatar_con_voz_de_Kurt_espanol_5s.mp4"
+type = "video"
+title = "Test 3 — tu avatar con voz de Kurt en español"
+description = "Prueba de 5.3 segundos usando tu creación frontal de camisa blanca, la voz oficial de Kurt en español y el fondo original del círculo. No es una generación larga."
+logical_id = "87e546a2-bb79-4d40-825f-4959e4c6a383"
+content_hash = "sha256:dbb44b211a8e003981a1339428bf8ee2afce86c85e2440b62efff23b074da25b"
+size = 295877
+mtime_ms = 1787181620683
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/87e546a2-bb79-4d40-825f-4959e4c6a383/097846e9-a177-425c-916c-621ea6c4cc82"
+storage_version_token = "1787181639261182"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "CUE_b9yaWL3lqwis0F_qu"
+uri = "file://exports/Prueba_mi_avatar_perfil_con_voz_de_Kurt_espanol_5s.mp4"
+type = "video"
+title = "Test 4 — tu avatar en tres cuartos"
+description = "Prueba de 5.3 segundos con tu foto de perfil tres cuartos, la voz oficial de Kurt en español y el fondo original del círculo."
+logical_id = "b5d4031b-9063-405f-8829-c53bd7450155"
+content_hash = "sha256:94208b3642f45d4368e5bbdd47f0cc3f2c6f40448b9c8a0e7b21c241b330118b"
+size = 297058
+mtime_ms = 1787182200620
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/b5d4031b-9063-405f-8829-c53bd7450155/b4171c34-53f2-4e01-b75a-c70a173cf018"
+storage_version_token = "1787182212718759"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "NlkClNfy139Fb1D792d8D"
+uri = "file://exports/Prueba_mi_avatar_sentado_con_voz_de_Kurt_espanol_5s.mp4"
+type = "video"
+title = "Test 5 — tu avatar sentado"
+description = "Prueba de 5.3 segundos con tu foto horizontal sentado, acercada para el círculo y con la voz oficial de Kurt en español."
+logical_id = "c4348a5d-2ea1-4412-9224-2cbcdff84e1d"
+content_hash = "sha256:899e424a9969852d3f75bf15d379de52a51ab6ef706a69903a2ab6745eea9237"
+size = 277038
+mtime_ms = 1787182610728
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/c4348a5d-2ea1-4412-9224-2cbcdff84e1d/46960c3a-1cc5-4e1c-973c-1e702010811a"
+storage_version_token = "1787182624345133"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "VnJpkyULfCPcI152e0ICT"
+uri = "file://exports/Como_analizar_acciones_con_DualyStocks_Avatar_sentado_Kurt_espanol.mp4"
+type = "video"
+title = "Cómo analizar acciones con DualyStocks — avatar sentado y voz de Kurt"
+description = "Edición final de 6:05 con tu avatar sentado, voz oficial de Kurt en español, guion corregido, audio normalizado y el aro circular original preservado."
+logical_id = "c59fe351-ae64-4d89-a439-cc46eef747ae"
+content_hash = "sha256:8babeca85a56548b2a90d7f00be16ef05ac15230edcbc534a1a65e90dacd8c93"
+size = 20730217
+mtime_ms = 1787185139071
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/c59fe351-ae64-4d89-a439-cc46eef747ae/74339e37-f710-4200-8d83-037800ad6a0f"
+storage_version_token = "1787185183084819"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "OOFuddA2rGcwKw6PmmosU"
+uri = "file://exports/Comprobacion_solo_circulo_sustituido_20s.mp4"
+type = "video"
+title = "Comprobación — solo se sustituye el círculo"
+description = "Fragmento de 20 segundos del recorrido original. La pantalla, navegador y cursor se conservan; únicamente cambia la persona dentro de la cámara circular."
+logical_id = "72239d31-8295-4ed7-88ef-5a44314e365b"
+content_hash = "sha256:fd4d63ed5127001e4f89c481dda60823a5c8b7d49c005eca289bea7ac4ec6001"
+size = 1041596
+mtime_ms = 1787220263172
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/72239d31-8295-4ed7-88ef-5a44314e365b/f93f46b5-a34d-472c-bac8-31c3117b459a"
+storage_version_token = "1787220283904673"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "Klw_7d1RCbUagQR3EpzbL"
+uri = "file://exports/musica_fondo_dualystocks_suave.mp3"
+type = "audio"
+title = "soft fintech background bed"
+description = "Generated music: Soft modern fintech instrumental bed for a screen-recorded investing tutorial: gentle warm synth pad, restrained piano pulses, subtle ambient electronic texture, no vocals, no dramat…"
+logical_id = "f13dbfe9-9eb1-49c7-96e8-990edf6a1d7d"
+
+[[outputs]]
+id = "PzsvgsAP9H0JpX6axwPCX"
+uri = "file://exports/Como_analizar_acciones_DualyStocks_logo_recortado_musica_FINAL.mp4"
+type = "video"
+title = "DualyStocks — logo, recorte y música"
+description = "Video final de 6:05 editado directamente desde el archivo original: imagen sustituida por el logo, pestañas/nombre/barra inferior eliminados y música instrumental suave bajo la voz. Sin HeyGen."
+logical_id = "141a6da5-6133-4fb5-9c16-5d0a85378db9"
+content_hash = "sha256:949d7565bf769aa8018bbf6e727b0ff0ffc586784727f85001666e499dbda9ac"
+size = 16768987
+mtime_ms = 1787221236188
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/141a6da5-6133-4fb5-9c16-5d0a85378db9/24d7d31e-5b8a-4299-9406-1437401d8e6f"
+storage_version_token = "1787221245052998"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "SNoXewUl3flFbQBqneTmO"
+uri = "file://exports/Como_analizar_acciones_DualyStocks_logo_recortado_lados_musica_FINAL.mp4"
+type = "video"
+title = "DualyStocks — recorte lateral final"
+description = "Versión final con márgenes laterales reducidos, logo de DualyStocks visible, recorte superior e inferior, audio original y música instrumental suave. Sin HeyGen."
+logical_id = "bb0a2abc-f7a0-4580-944e-6a61b475a33c"
+content_hash = "sha256:a957e83ac233fc129b81161067d1aa616a6a5539c87da69db9c5611ff0590b55"
+size = 15911258
+mtime_ms = 1787221485604
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/bb0a2abc-f7a0-4580-944e-6a61b475a33c/b8a2cf3b-9e40-47eb-8810-9b1ea9df9e6b"
+storage_version_token = "1787221505531928"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "EPo-l8UNzrWqowjG48pBz"
+uri = "file://exports/Como_analizar_acciones_DualyStocks_con_portada_y_cierre_FINAL.mp4"
+type = "video"
+title = "DualyStocks — video con portada y cierre"
+description = "Versión final de 6:12 con la imagen promocional al inicio, tutorial editado, música suave y cierre claro con logo grande, DUALYSTOCKS.COM y SUSCRIBETE GRATIS. Sin HeyGen."
+logical_id = "196c8225-7f47-431f-89d3-18b131b4775c"
+content_hash = "sha256:7b1a9dc02ab336380997d2c2ad86d3351c1f06f71ed5bba6f05114514da6411a"
+size = 16253578
+mtime_ms = 1787222287800
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/196c8225-7f47-431f-89d3-18b131b4775c/e0b3e0be-eb2d-498d-83c9-fc5487bb00f0"
+storage_version_token = "1787222305998948"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "mwrnzjvFqMKquIj4QMe04"
+uri = "file://exports/musica_fondo_dualystocks_animada.mp3"
+type = "audio"
+title = "upbeat fintech music bed"
+description = "Generated music: Upbeat modern fintech instrumental for a DualyStocks investing tutorial: optimistic electronic pop groove around 110 BPM, bright synth chords, energetic plucked melody, crisp light d…"
+logical_id = "459506ec-4df2-4ffe-9b7f-44086c73157a"
+
+[[outputs]]
+id = "5DWLhsTJirH-mONx64c8B"
+uri = "file://exports/Como_analizar_acciones_DualyStocks_con_musica_animada_FINAL.mp4"
+type = "video"
+title = "DualyStocks — versión con música animada"
+description = "Video final con una pista electrónica más energética, portada promocional, tutorial, logo, portal y llamada a SUSCRIBETE GRATIS. Sin HeyGen."
+logical_id = "c50fb25c-41d8-45c0-a9fe-cdbbd9718220"
+content_hash = "sha256:418cc3aa5f1e7ab0e4fa4e1f477d149a07d8717e0fccf3915e84c10c488377d7"
+size = 17552976
+mtime_ms = 1787222456492
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/c50fb25c-41d8-45c0-a9fe-cdbbd9718220/9e07ffa6-b5ab-4070-8479-c4d624f9bb01"
+storage_version_token = "1787222483754789"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "cWfcefhtL-cfqu0dApeHt"
+uri = "file://exports/Como_analizar_acciones_DualyStocks_musica_animada_FLUIDA.mp4"
+type = "video"
+title = "DualyStocks — versión fluida"
+description = "Versión final reexportada a 30 fps constantes para eliminar los tirones, conservando el audio, la música animada, la portada y el cierre."
+logical_id = "3e65a1bd-0b8f-4388-be01-0297d4a8f99e"
+content_hash = "sha256:25cf0da05acc5c57cc37556bbbcd3b01a1b614dfa8be78666e069ae977733829"
+size = 28655534
+mtime_ms = 1787224173621
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/3e65a1bd-0b8f-4388-be01-0297d4a8f99e/9c8c9efd-fa7a-4fb5-bccf-847b67005243"
+storage_version_token = "1787224197429015"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "PWdQ_jIIITVt5UXJZqUoM"
+uri = "file://exports/Como_analizar_acciones_DualyStocks_recortado_5m54_FINAL.mp4"
+type = "video"
+title = "DualyStocks — recortado a 5:54"
+description = "Versión final de 5:58: se eliminó el fragmento desde 5:54 hasta el cierre, que ahora aparece inmediatamente después. Mantiene la música animada y 30 fps constantes."
+logical_id = "d78639e8-78ed-40c7-bd62-8a421c92e3df"
+content_hash = "sha256:dd0f50dd1512c6c2db9f4112ea274e0897f8fc2feaf185a8dd373d993a881259"
+size = 27012766
+mtime_ms = 1787224912994
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/d78639e8-78ed-40c7-bd62-8a421c92e3df/0aeaef03-732b-4170-a198-7618a3443005"
+storage_version_token = "1787224936922689"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "x7xrO94DliLeN3Nen7qOW"
+uri = "file://exports/Como_analizar_acciones_DualyStocks_transiciones_logo_oficial_FINAL.mp4"
+type = "video"
+title = "DualyStocks — transiciones y logo oficial"
+description = "Versión final con fundidos suaves entre portada, tutorial y cierre; música animada; corte solicitado; y el logo oficial completo de DualyStocks en la imagen final."
+logical_id = "b969bfb8-b51a-447b-9811-c6c096e83201"
+content_hash = "sha256:62fcd179752e626e248d3b285ba3e229438138ddbbeb333388e7327d916f6dfe"
+size = 28068214
+mtime_ms = 1787225139705
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/b969bfb8-b51a-447b-9811-c6c096e83201/17bd2054-d208-40b6-a14b-54b0ae2e171d"
+storage_version_token = "1787225166027120"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "lkjkQmMluEdSVNdRQiU-Y"
+uri = "file://exports/Como_analizar_acciones_DualyStocks_cierre_8s_email_FINAL.mp4"
+type = "video"
+title = "DualyStocks — cierre extendido con email"
+description = "Versión final con transiciones suaves, logo oficial, cierre de 8 segundos y email COSTUMER@DUALYSTOCK.COM."
+logical_id = "f3854805-f32c-4e19-9d3b-1e8f163ad649"
+content_hash = "sha256:9d7f6741024c708d0b784203f7a5604f56c2e75de589e78766b949d260967cee"
+size = 28268494
+mtime_ms = 1787225835433
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/f3854805-f32c-4e19-9d3b-1e8f163ad649/a0933d0c-e498-43f6-ae38-bfd30e3ef714"
+storage_version_token = "1787225847358931"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "LUXPaocmaTc2USd5Edijt"
+uri = "file://exports/Como_analizar_acciones_DualyStocks_EMAIL_DESTACADO_FINAL.mp4"
+type = "video"
+title = "DualyStocks — email destacado"
+description = "Versión final con COSTUMER@DUALYSTOCK.COM grande y visible en el cierre de 8 segundos, junto al logo oficial, portal y botón de suscripción."
+logical_id = "d580bd82-4198-42cf-a0fc-cf4671185e38"
+content_hash = "sha256:1424b818583c0ced9cd9f06250f95c1843bbe0fab2c7e8fb3367e6bcea9aa8f4"
+size = 28271158
+mtime_ms = 1787227624068
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/d580bd82-4198-42cf-a0fc-cf4671185e38/15eed1d6-e3e0-43c0-a271-e67c601b3b89"
+storage_version_token = "1787227638294844"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "o6uFMJJAOimSBQOdKsQQL"
+uri = "file://exports/Como_analizar_acciones_DualyStocks_Instagram_Facebook_9x16.mp4"
+type = "video"
+title = "DualyStocks — Instagram y Facebook 9:16"
+description = "Versión vertical 1080×1920 a 30 fps para Reels, Stories y Facebook. Mantiene el video completo sin recortes, con fondo adaptado, audio, transiciones, logo oficial y email."
+logical_id = "2fdc4e87-9860-4261-8c2d-8cfe093cf286"
+content_hash = "sha256:5fd0938551f7928a3b1d8522a2b9757ccd869267ff52bf7c6b4232f1ea775b2d"
+size = 34689029
+mtime_ms = 1787232969091
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:5235e144-184e-43d2-85aa-e51292069a0f/2fdc4e87-9860-4261-8c2d-8cfe093cf286/2acb5590-78b4-4288-90bf-41c3eba6ae71"
+storage_version_token = "1787232989375044"
+content_type = "video/mp4"
