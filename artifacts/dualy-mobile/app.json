@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "DualyStocks Mobile",
-    "slug": "dualy-mobile",
+    "slug": "dualystocks",
+    "owner": "healthcentral2026s-organization",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
