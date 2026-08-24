@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "DualyStocks"
+description = "DualyStocks: análisis de acciones claro y sin jerga. Busca una acción, mira su puntuación y veredicto, y explora ideas de inversión con presets de valor, dividendos y oportunidades."
+version = "1.0.0"
+id = "artifacts/tradesage"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18850
+
+[services.development]
+run = "pnpm --filter @workspace/tradesage run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/tradesage", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/tradesage/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18850"
+BASE_PATH = "/"
