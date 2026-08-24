@@ -35,6 +35,11 @@
       "expo-web-browser",
       "expo-secure-store"
     ],
+    "extra": {
+      "eas": {
+        "projectId": "77d60167-7552-4f1e-a91f-2a8fcf905411"
+      }
+    },
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
