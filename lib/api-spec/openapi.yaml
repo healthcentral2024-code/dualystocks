@@ -1,0 +1,1073 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: analysis
+    description: Simplified stock analysis from Finviz data
+  - name: favorites
+    description: Signed-in user's saved stocks
+  - name: billing
+    description: Signed-in user's subscription access
+  - name: support
+    description: Customer-service messages from users
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /analysis/{ticker}:
+    get:
+      operationId: getAnalysis
+      tags: [analysis]
+      summary: Get simplified analysis for a stock ticker or company name
+      description: Resolves a ticker or company name, then fetches Finviz data and returns a simplified, plain-language analysis with scores.
+      parameters:
+        - name: ticker
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: lang
+          in: query
+          required: false
+          description: Response language (default es)
+          schema:
+            type: string
+            enum: [es, en]
+      responses:
+        "200":
+          description: Simplified analysis
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockAnalysis"
+        "404":
+          description: Stock ticker or company name not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+  /analysis/{ticker}/chart:
+    get:
+      operationId: getChartAnalysis
+      tags: [analysis]
+      summary: Historical chart data plus plain-language technical reading
+      parameters:
+        - name: ticker
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: lang
+          in: query
+          required: false
+          description: Response language (default es)
+          schema:
+            type: string
+            enum: [es, en]
+      responses:
+        "200":
+          description: Chart analysis
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChartAnalysis"
+        "404":
+          description: Ticker not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+  /analysis/{ticker}/trend:
+    get:
+      operationId: getTrendAnalysis
+      tags: [analysis]
+      summary: Multi-timeframe trend analysis (monthly, weekly, daily, hourly) plus strategy buy signal
+      parameters:
+        - name: ticker
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: lang
+          in: query
+          required: false
+          description: Response language (default es)
+          schema:
+            type: string
+            enum: [es, en]
+      responses:
+        "200":
+          description: Trend analysis
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrendAnalysis"
+        "404":
+          description: Ticker not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+  /screener:
+    get:
+      operationId: getScreener
+      tags: [analysis]
+      summary: Curated screener lists
+      description: Returns a curated list of candidate stocks for a given preset (Finviz screener filters), oriented to undervalued, low-risk, medium/long-term ideas.
+      parameters:
+        - name: preset
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [valor, dividendos, oportunidades, estrategia]
+        - name: lang
+          in: query
+          required: false
+          description: Response language (default es)
+          schema:
+            type: string
+            enum: [es, en]
+        - name: index
+          in: query
+          required: false
+          description: Restrict to an index membership
+          schema:
+            type: string
+            enum: [sp500, nasdaq100, dowjones]
+        - name: exchange
+          in: query
+          required: false
+          description: Exchange where the stock trades
+          schema:
+            type: string
+            enum: [nyse, nasdaq, amex]
+        - name: cap
+          in: query
+          required: false
+          description: Market cap bucket in millions of USD ("all" explicitly removes the preset's built-in cap constraint)
+          schema:
+            type: string
+            enum: [under500, from500to1000, over500, over1000, all]
+        - name: recom
+          in: query
+          required: false
+          description: Minimum analyst recommendation
+          schema:
+            type: string
+            enum: [strongbuy, buybetter, holdbetter, holdworse]
+        - name: insider
+          in: query
+          required: false
+          description: Recent insider (executives) transactions direction
+          schema:
+            type: string
+            enum: [compras, ventas]
+        - name: insiderOwn
+          in: query
+          required: false
+          description: Minimum percent of shares owned by company insiders
+          schema:
+            type: string
+            enum: [over30]
+        - name: price
+          in: query
+          required: false
+          description: Minimum share price
+          schema:
+            type: string
+            enum: [o50, o100, o150]
+        - name: targetUpside
+          in: query
+          required: false
+          description: Minimum percent upside to analyst target price
+          schema:
+            type: string
+            enum: [a5, a10, a20, a30, a50, all]
+        - name: country
+          in: query
+          required: false
+          description: Country where the company is based
+          schema:
+            type: string
+            enum: [usa, notusa, europe, china, canada, japan, all]
+        - name: optionable
+          in: query
+          required: false
+          description: Restrict to stocks that have listed options (optionable)
+          schema:
+            type: string
+            enum: [yes]
+      responses:
+        "200":
+          description: Screener results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScreenerResult"
+        "404":
+          description: Unknown preset
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+  /sectors/trend:
+    get:
+      operationId: getSectorTrend
+      tags: [analysis]
+      summary: Sector performance ranking (trending sectors)
+      description: Returns all market sectors ranked by recent performance (day, week, month, quarter, YTD) from Finviz group data.
+      parameters:
+        - name: lang
+          in: query
+          required: false
+          description: Response language (default es)
+          schema:
+            type: string
+            enum: [es, en]
+      responses:
+        "200":
+          description: Sector performance list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SectorTrendResult"
+        "502":
+          description: Upstream Finviz data unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+  /market/pulse:
+    get:
+      operationId: getMarketPulse
+      tags: [analysis]
+      summary: Today's market pulse
+      description: Plain-language summary of what is moving the overall market today (generated from recent market news), plus each sector's change today. Public endpoint shown on the home page.
+      parameters:
+        - name: lang
+          in: query
+          required: false
+          description: Response language (default es)
+          schema:
+            type: string
+            enum: [es, en]
+      responses:
+        "200":
+          description: Market pulse
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MarketPulseResult"
+        "502":
+          description: Upstream data unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+  /top-picks:
+    get:
+      operationId: getTopPicks
+      tags: [analysis]
+      summary: Top 3 daily picks
+      description: Returns the 3 stocks the system currently recommends most, combining the strategy screen (market cap over $500M, analyst target upside), the technical buy score, and the daily strategy signal. Refreshes shortly after the 9:30 ET market open.
+      parameters:
+        - name: lang
+          in: query
+          required: false
+          description: Response language (default es)
+          schema:
+            type: string
+            enum: [es, en]
+      responses:
+        "200":
+          description: Top picks
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TopPicksResult"
+        "502":
+          description: Upstream Finviz data unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+  /recent:
+    get:
+      operationId: getRecentAnalyses
+      tags: [analysis]
+      summary: Recently analyzed tickers
+      description: Returns the most recently analyzed tickers with their overall scores.
+      responses:
+        "200":
+          description: Recent analyses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RecentAnalysis"
+  /favorites:
+    get:
+      operationId: getFavorites
+      tags: [favorites]
+      summary: List the signed-in user's saved stocks
+      parameters:
+        - name: lang
+          in: query
+          required: false
+          description: Response language (default es)
+          schema:
+            type: string
+            enum: [es, en]
+      responses:
+        "200":
+          description: Saved tickers enriched with current stock data when available
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FavoritesResult"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Favorites could not be loaded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+    post:
+      operationId: postFavorite
+      tags: [favorites]
+      summary: Save a stock to the signed-in user's favorites
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FavoriteInput"
+      responses:
+        "200":
+          description: Stock saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FavoriteMutationResult"
+        "400":
+          description: Invalid ticker or favorite limit reached
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Favorite could not be saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+  /favorites/{ticker}:
+    delete:
+      operationId: deleteFavorite
+      tags: [favorites]
+      summary: Remove a stock from the signed-in user's favorites
+      parameters:
+        - name: ticker
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Stock removed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MutationOkResult"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Favorite could not be removed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+  /billing/subscription:
+    get:
+      operationId: getBillingSubscription
+      tags: [billing]
+      summary: Get the signed-in user's current subscription access
+      responses:
+        "200":
+          description: Current access and subscription status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubscriptionStatus"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Subscription status could not be loaded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+  /support/messages:
+    post:
+      operationId: postSupportMessage
+      tags: [support]
+      summary: Send a support message to the team
+      description: Stores an in-app customer-service message from the signed-in user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SupportMessageInput"
+      responses:
+        "201":
+          description: Message stored
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SupportMessageResult"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    ErrorMessage:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+    ScoreFactor:
+      type: object
+      description: One concrete metric that feeds a category score, so users can see exactly what is measured.
+      required: [label, value, score]
+      properties:
+        label:
+          type: string
+          description: Metric name, e.g. "P/E", "RSI (14)", "MACD"
+        value:
+          type: string
+          description: The metric's current value as displayed, e.g. "23.4", "+1.2%"
+        score:
+          type: number
+          description: 0-100 contribution of this metric to its category
+    ScoreCategory:
+      type: object
+      description: One scored dimension of the analysis with plain-language explanation.
+      required: [key, label, score, verdict, points]
+      properties:
+        weight:
+          type: number
+          description: Weight of this category in the overall score, in percent (e.g. 18)
+        factors:
+          type: array
+          description: The concrete metrics measured for this category, each with its value and 0-100 score
+          items:
+            $ref: "#/components/schemas/ScoreFactor"
+        key:
+          type: string
+          description: Machine key, e.g. valuation, growth, profitability, health, momentum, sentiment
+        label:
+          type: string
+          description: Display label in Spanish, e.g. "Valoración"
+        score:
+          type: number
+          description: 0-100 score for this category
+        verdict:
+          type: string
+          description: One-line plain-language verdict in Spanish
+        points:
+          type: array
+          description: Supporting bullet points, each citing the underlying metric
+          items:
+            type: string
+    MetricItem:
+      type: object
+      required: [label, value]
+      properties:
+        label:
+          type: string
+        value:
+          type: string
+        hint:
+          type: ["string", "null"]
+          description: Optional plain-language explanation of what the metric means
+    StockAnalysis:
+      type: object
+      required:
+        - ticker
+        - companyName
+        - sector
+        - industry
+        - price
+        - changePercent
+        - overallScore
+        - overallVerdict
+        - summary
+        - categories
+        - keyMetrics
+        - lastEarningsDate
+        - nextEarningsDate
+        - recentNews
+        - analyzedAt
+      properties:
+        ticker:
+          type: string
+        companyName:
+          type: string
+        sector:
+          type: string
+        industry:
+          type: string
+        country:
+          type: ["string", "null"]
+        price:
+          type: number
+        changePercent:
+          type: number
+          description: Daily change in percent
+        marketCap:
+          type: ["string", "null"]
+          description: Human readable market cap, e.g. "2.95T"
+        overallScore:
+          type: number
+          description: 0-100 combined score
+        overallVerdict:
+          type: string
+          description: Plain-language overall verdict in Spanish
+        strategyMatch:
+          type: boolean
+          description: True when the stock meets the user's buy-cheap strategy (cap > $500M, analyst recom < 2, upside > 50%, insiders not selling)
+        summary:
+          type: array
+          description: 3-5 plain-language takeaways in Spanish
+          items:
+            type: string
+        categories:
+          type: array
+          items:
+            $ref: "#/components/schemas/ScoreCategory"
+        keyMetrics:
+          type: array
+          description: Raw key metrics from Finviz for a details table
+          items:
+            $ref: "#/components/schemas/MetricItem"
+        lastEarningsDate:
+          type: ["string", "null"]
+          format: date
+          description: Date of the most recent reported earnings, based on the SEC filing
+        nextEarningsDate:
+          type: ["string", "null"]
+          format: date
+          description: Estimated date of the next earnings report
+        targetPrice:
+          type: ["number", "null"]
+          description: Analyst mean target price
+        recommendation:
+          type: ["number", "null"]
+          description: Analyst recommendation 1 (strong buy) to 5 (sell)
+        insiderTransPercent:
+          type: ["number", "null"]
+          description: Net insider buying/selling over the last 6 months, in percent
+        insiderOwnPercent:
+          type: ["number", "null"]
+          description: Percent of shares owned by company insiders
+        analyzedAt:
+          type: string
+          description: ISO timestamp of when the analysis was generated
+        recentNews:
+          type: array
+          description: Up to three recent headlines about this stock that may affect its price
+          items:
+            $ref: "#/components/schemas/StockNews"
+    StockNews:
+      type: object
+      required:
+        - title
+        - url
+        - publishedAt
+      properties:
+        title:
+          type: string
+          description: Localized headline of the news item when translation is available
+        url:
+          type: string
+          description: Link to the news article
+        publishedAt:
+          type: string
+          description: ISO timestamp of when the news was published
+        impact:
+          type: string
+          enum:
+            - positive
+            - negative
+            - neutral
+          description: Prudently interpreted possible impact based only on the headline
+        impactReason:
+          type: string
+          description: Brief localized explanation of the possible impact classification
+    Candle:
+      type: object
+      required: [date, open, high, low, close, volume]
+      properties:
+        date:
+          type: string
+          description: ISO date YYYY-MM-DD
+        open:
+          type: number
+        high:
+          type: number
+        low:
+          type: number
+        close:
+          type: number
+        volume:
+          type: number
+    TechnicalReading:
+      type: object
+      required: [buyScore, verdict, bullets, trend, rsi]
+      properties:
+        buyScore:
+          type: number
+          description: 0-100 buy suggestion computed from the chart
+        verdict:
+          type: string
+          description: Short Spanish verdict
+        bullets:
+          type: array
+          description: Plain-language Spanish technical observations
+          items:
+            type: string
+        trend:
+          type: string
+          description: alcista | bajista | lateral
+        rsi:
+          type: ["number", "null"]
+        supportLevel:
+          type: ["number", "null"]
+        resistanceLevel:
+          type: ["number", "null"]
+        sma50:
+          type: ["number", "null"]
+        sma200:
+          type: ["number", "null"]
+    SwingStats:
+      type: object
+      description: Average dollar swing behavior computed from recent daily candles
+      required:
+        [
+          avgDailyMove,
+          avgWeeklyMove,
+          avgMonthlyMove,
+          avgUpMove,
+          avgUpDays,
+          avgDownMove,
+          avgDownDays,
+          sampleDays,
+        ]
+      properties:
+        avgDailyMove:
+          type: number
+          description: Average absolute close-to-close move per trading day, in dollars
+        avgWeeklyMove:
+          type: number
+          description: Average absolute close-to-close move over a 5-trading-day window, in dollars
+        avgMonthlyMove:
+          type: number
+          description: Average absolute close-to-close move over a 21-trading-day window, in dollars
+        avgUpMove:
+          type: number
+          description: Average total dollars gained during an up-swing (consecutive up days)
+        avgUpDays:
+          type: number
+          description: Average length in days of an up-swing
+        avgDownMove:
+          type: number
+          description: Average total dollars lost during a down-swing (consecutive down days)
+        avgDownDays:
+          type: number
+          description: Average length in days of a down-swing
+        sampleDays:
+          type: number
+          description: Number of daily candles used for the calculation
+    ChartAnalysis:
+      type: object
+      required: [ticker, candles, technical]
+      properties:
+        ticker:
+          type: string
+        candles:
+          type: array
+          description: Daily candles, oldest first (up to 5 years)
+          items:
+            $ref: "#/components/schemas/Candle"
+        technical:
+          $ref: "#/components/schemas/TechnicalReading"
+        swing:
+          $ref: "#/components/schemas/SwingStats"
+    FrameTrend:
+      type: object
+      required: [frame, trend]
+      properties:
+        frame:
+          type: string
+          description: mensual | semanal | diario | hora
+        trend:
+          type: string
+          description: alcista | bajista | lateral
+        sma20:
+          type: ["number", "null"]
+          description: 20-period simple moving average for this timeframe
+        priceVsSma20Percent:
+          type: ["number", "null"]
+          description: Percent distance of the last price vs the SMA20
+    TrendSignal:
+      type: object
+      required: [valid, message, bullets]
+      properties:
+        valid:
+          type: boolean
+          description: True when the strategy buy signal is validated
+        lowToSma20Percent:
+          type: ["number", "null"]
+          description: Percent gap between the daily low and the daily SMA20
+        message:
+          type: string
+        bullets:
+          type: array
+          items:
+            type: string
+    TrendAnalysis:
+      type: object
+      required: [ticker, price, frames, signal]
+      properties:
+        ticker:
+          type: string
+        price:
+          type: number
+        frames:
+          type: array
+          items:
+            $ref: "#/components/schemas/FrameTrend"
+        signal:
+          $ref: "#/components/schemas/TrendSignal"
+    ScreenerStock:
+      type: object
+      required: [ticker, companyName, sector, price, changePercent, reasons]
+      properties:
+        ticker:
+          type: string
+        companyName:
+          type: string
+        sector:
+          type: string
+        price:
+          type: number
+        changePercent:
+          type: number
+        marketCap:
+          type: ["string", "null"]
+        pe:
+          type: ["number", "null"]
+        dividendYield:
+          type: ["string", "null"]
+        beta:
+          type: ["number", "null"]
+        targetUpsidePercent:
+          type: ["number", "null"]
+          description: Percent upside to analyst target price
+        targetPrice:
+          type: ["number", "null"]
+          description: Analyst mean target price
+        recom:
+          type: ["number", "null"]
+          description: Analyst recommendation 1 (strong buy) to 5 (sell)
+        insiderTransactions:
+          type: ["string", "null"]
+          description: Net insider buying/selling over last 6 months, e.g. "-2.05%"
+        index:
+          type: ["string", "null"]
+          description: Index membership, e.g. "S&P 500"
+        buyScore:
+          type: ["number", "null"]
+          description: 0-100 technical buy suggestion computed from the chart
+        strategySignal:
+          type: ["boolean", "null"]
+          description: True when the stock meets the strategy signal (bearish daily trend + daily low >20% below SMA20); null when the chart data was unavailable
+        reasons:
+          type: array
+          description: Short Spanish bullets on why this stock qualifies
+          items:
+            type: string
+    ScreenerResult:
+      type: object
+      required: [preset, label, description, criteria, stocks]
+      properties:
+        preset:
+          type: string
+        label:
+          type: string
+          description: Tab label in Spanish
+        description:
+          type: string
+          description: Plain-language explanation of the strategy in Spanish
+        criteria:
+          type: array
+          description: Human-readable filter criteria in Spanish
+          items:
+            type: string
+        stocks:
+          type: array
+          items:
+            $ref: "#/components/schemas/ScreenerStock"
+    TopPicksResult:
+      type: object
+      required: [picks, updatedAt]
+      properties:
+        picks:
+          type: array
+          description: Up to 3 recommended stocks, strongest first
+          items:
+            $ref: "#/components/schemas/ScreenerStock"
+        updatedAt:
+          type: string
+          description: ISO timestamp of when this ranking was computed
+    SectorPerformance:
+      type: object
+      required: [name, label, changeToday, perfWeek, perfMonth, perfQuarter, perfYtd, stocks]
+      properties:
+        name:
+          type: string
+          description: Canonical Finviz sector name (English)
+        label:
+          type: string
+          description: Localized sector name for display
+        changeToday:
+          type: number
+          description: Percent change today
+        perfWeek:
+          type: number
+        perfMonth:
+          type: number
+        perfQuarter:
+          type: number
+        perfYtd:
+          type: number
+        stocks:
+          type: number
+          description: Number of stocks in the sector
+    SectorTrendResult:
+      type: object
+      required: [sectors, updatedAt, message]
+      properties:
+        sectors:
+          type: array
+          description: Sectors ranked by month performance (best first)
+          items:
+            $ref: "#/components/schemas/SectorPerformance"
+        updatedAt:
+          type: string
+        message:
+          type: string
+          description: Plain-language summary of which sectors are trending
+    MarketPulseNews:
+      type: object
+      required: [title, url]
+      properties:
+        title:
+          type: string
+        url:
+          type: string
+    MarketPulseSector:
+      type: object
+      required: [name, label, changeToday]
+      properties:
+        name:
+          type: string
+          description: Canonical Finviz sector name (English)
+        label:
+          type: string
+          description: Localized sector name for display
+        changeToday:
+          type: number
+          description: Percent change today
+    MarketPulseResult:
+      type: object
+      required: [summary, mood, sectors, updatedAt]
+      properties:
+        summary:
+          type: string
+          description: 2-3 plain-language sentences explaining what is moving the market today
+        mood:
+          type: string
+          enum: [up, down, mixed]
+          description: Overall market direction today based on sector changes
+        sectors:
+          type: array
+          description: Sectors ordered by change today (best first)
+          items:
+            $ref: "#/components/schemas/MarketPulseSector"
+        topNews:
+          type: array
+          description: Up to 3 key market headlines behind today's move
+          items:
+            $ref: "#/components/schemas/MarketPulseNews"
+        updatedAt:
+          type: string
+    RecentAnalysis:
+      type: object
+      required: [ticker, companyName, overallScore, overallVerdict, price, changePercent, analyzedAt]
+      properties:
+        ticker:
+          type: string
+        companyName:
+          type: string
+        overallScore:
+          type: number
+        overallVerdict:
+          type: string
+        price:
+          type: number
+        changePercent:
+          type: number
+        analyzedAt:
+          type: string
+    SupportMessageInput:
+      type: object
+      properties:
+        subject:
+          type: string
+          minLength: 1
+          maxLength: 200
+        message:
+          type: string
+          minLength: 1
+          maxLength: 5000
+      required:
+        - subject
+        - message
+    SupportMessageResult:
+      type: object
+      properties:
+        id:
+          type: number
+        createdAt:
+          type: string
+      required:
+        - id
+        - createdAt
+    FavoriteStock:
+      type: object
+      required: [ticker, stock]
+      properties:
+        ticker:
+          type: string
+        stock:
+          anyOf:
+            - $ref: "#/components/schemas/ScreenerStock"
+            - type: "null"
+    FavoritesResult:
+      type: object
+      required: [favorites]
+      properties:
+        favorites:
+          type: array
+          items:
+            $ref: "#/components/schemas/FavoriteStock"
+    FavoriteInput:
+      type: object
+      required: [ticker]
+      properties:
+        ticker:
+          type: string
+          minLength: 1
+          maxLength: 10
+          pattern: "^[A-Za-z][A-Za-z0-9.\\-]{0,9}$"
+    FavoriteMutationResult:
+      type: object
+      required: [ok, ticker]
+      properties:
+        ok:
+          type: boolean
+        ticker:
+          type: string
+    MutationOkResult:
+      type: object
+      required: [ok]
+      properties:
+        ok:
+          type: boolean
+    SubscriptionStatus:
+      type: object
+      required: [active, status]
+      properties:
+        active:
+          type: boolean
+        status:
+          type: ["string", "null"]
+        isAdmin:
+          type: boolean
+        founder:
+          type: boolean
+        cancelAtPeriodEnd:
+          type: boolean
+        currentPeriodEnd:
+          type: ["number", "string", "null"]
+        trialEnd:
+          type: ["number", "string", "null"]
