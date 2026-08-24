@@ -1,0 +1,28 @@
+kind = "video"
+previewPath = "/dualy-video/"
+title = "DualyStocks Promo Video"
+description = "A ~30-45 second animated promotional video for DualyStocks, a bilingual stock-analysis app for novice investors. Motion graphics in the app's emerald/navy brand palette, featuring the logo, stock analysis score demo, and Investment Ideas screener."
+version = "1.0.0"
+id = "artifacts/dualy-video"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/dualy-video/" ]
+localPort = 25553
+
+[services.development]
+run = "pnpm --filter @workspace/dualy-video run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/dualy-video", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/dualy-video/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25553"
+BASE_PATH = "/dualy-video/"
