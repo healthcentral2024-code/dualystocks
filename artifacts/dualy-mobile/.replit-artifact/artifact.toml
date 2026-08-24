@@ -1,0 +1,24 @@
+kind = "mobile"
+previewPath = "/dualy-mobile/"
+title = "DualyStocks Mobile"
+description = "Aplicación móvil bilingüe de DualyStocks para iPhone y Android. Permite descubrir ideas de inversión, buscar empresas, consultar análisis claros y guardar acciones favoritas usando la misma cuenta y datos del producto web."
+version = "1.0.0"
+id = "artifacts/dualy-mobile"
+router = "expo-domain"
+
+[[services]]
+name = "expo"
+ensurePreviewReachable = "/status"
+paths = [ "/dualy-mobile/" ]
+localPort = 22486
+
+[services.development]
+run = "pnpm --filter @workspace/dualy-mobile run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/dualy-mobile", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/dualy-mobile", "run", "serve" ]
+
+[services.env]
+PORT = "22486"
+BASE_PATH = "/dualy-mobile/"
