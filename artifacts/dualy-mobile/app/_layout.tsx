@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
@@ -18,15 +18,14 @@ import { cache } from '@/lib/token-cache';
 import { LanguageProvider } from '@/lib/i18n';
 import { setBaseUrl, setAuthTokenGetter } from '@workspace/api-client-react';
 
-const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY || '';
+const STATIC_CLERK_PUBLISHABLE_KEY =
+  process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY || '';
+const API_DOMAIN = process.env.EXPO_PUBLIC_DOMAIN || '';
+const API_ORIGIN = API_DOMAIN ? `https://${API_DOMAIN}` : '';
 const CLERK_PROXY_URL = process.env.EXPO_PUBLIC_CLERK_PROXY_URL || undefined;
 
-if (!CLERK_PUBLISHABLE_KEY) {
-  throw new Error('Missing EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in environment');
-}
-
-if (process.env.EXPO_PUBLIC_DOMAIN) {
-  setBaseUrl(`https://${process.env.EXPO_PUBLIC_DOMAIN}`);
+if (API_ORIGIN) {
+  setBaseUrl(API_ORIGIN);
 }
 
 function ApiTokenProvider({ children }: { children: React.ReactNode }) {
@@ -55,7 +54,11 @@ function RootLayoutNav() {
   );
 }
 
-export default function RootLayout() {
+function RootLayoutContent() {
+  const [clerkPublishableKey, setClerkPublishableKey] = useState(
+    STATIC_CLERK_PUBLISHABLE_KEY,
+  );
+  const [bootstrapError, setBootstrapError] = useState<Error | null>(null);
   const [fontsLoaded, fontError] = useFonts({
     Inter_400Regular,
     Inter_500Medium,
@@ -64,36 +67,89 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if (fontsLoaded || fontError) {
+    if (clerkPublishableKey) return;
+
+    if (!API_ORIGIN) {
+      const error = new Error('Missing mobile API domain');
+      setBootstrapError(error);
+      void SplashScreen.hideAsync();
+      return;
+    }
+
+    const controller = new AbortController();
+
+    void fetch(`${API_ORIGIN}/api/mobile/config`, {
+      headers: { Accept: 'application/json' },
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error(`Mobile configuration request failed (${response.status})`);
+        }
+
+        return response.json() as Promise<{ clerkPublishableKey?: unknown }>;
+      })
+      .then((config) => {
+        if (
+          typeof config.clerkPublishableKey !== 'string' ||
+          !config.clerkPublishableKey
+        ) {
+          throw new Error('Mobile configuration is incomplete');
+        }
+
+        setClerkPublishableKey(config.clerkPublishableKey);
+      })
+      .catch((error: unknown) => {
+        if (error instanceof Error && error.name === 'AbortError') return;
+        setBootstrapError(
+          error instanceof Error
+            ? error
+            : new Error('Unable to load mobile configuration'),
+        );
+        void SplashScreen.hideAsync();
+      });
+
+    return () => controller.abort();
+  }, [clerkPublishableKey]);
+
+  useEffect(() => {
+    if ((fontsLoaded || fontError) && clerkPublishableKey) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded, fontError]);
+  }, [clerkPublishableKey, fontsLoaded, fontError]);
 
-  if (!fontsLoaded && !fontError) return null;
+  if (bootstrapError) throw bootstrapError;
+  if ((!fontsLoaded && !fontError) || !clerkPublishableKey) return null;
 
   return (
     <ClerkProvider
-      publishableKey={CLERK_PUBLISHABLE_KEY}
+      publishableKey={clerkPublishableKey}
       tokenCache={cache}
       proxyUrl={CLERK_PROXY_URL}
     >
       <ClerkLoaded>
-        <SafeAreaProvider>
-          <ErrorBoundary>
-            <QueryClientProvider client={queryClient}>
-              <ApiTokenProvider>
-                <LanguageProvider>
-                  <GestureHandlerRootView style={{ flex: 1 }}>
-                    <KeyboardProvider>
-                      <RootLayoutNav />
-                    </KeyboardProvider>
-                  </GestureHandlerRootView>
-                </LanguageProvider>
-              </ApiTokenProvider>
-            </QueryClientProvider>
-          </ErrorBoundary>
-        </SafeAreaProvider>
+        <QueryClientProvider client={queryClient}>
+          <ApiTokenProvider>
+            <LanguageProvider>
+              <GestureHandlerRootView style={{ flex: 1 }}>
+                <KeyboardProvider>
+                  <RootLayoutNav />
+                </KeyboardProvider>
+              </GestureHandlerRootView>
+            </LanguageProvider>
+          </ApiTokenProvider>
+        </QueryClientProvider>
       </ClerkLoaded>
     </ClerkProvider>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <SafeAreaProvider>
+      <ErrorBoundary>
+        <RootLayoutContent />
+      </ErrorBoundary>
+    </SafeAreaProvider>
   );
 }

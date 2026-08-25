@@ -35,6 +35,7 @@ import type {
   GetTrendAnalysisParams,
   HealthStatus,
   MarketPulseResult,
+  MobileConfig,
   MutationOkResult,
   RecentAnalysis,
   ScreenerResult,
@@ -140,6 +141,84 @@ export function useHealthCheck<TData = Awaited<ReturnType<typeof healthCheck>>, 
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getHealthCheckQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getGetMobileConfigUrl = () => {
+
+
+
+
+  return `/api/mobile/config`
+}
+
+/**
+ * Returns the public Clerk key required to initialize the mobile app.
+ * @summary Get public mobile bootstrap configuration
+ */
+export const getMobileConfig = async ( options?: Parameters<typeof customFetch>[1]): Promise<MobileConfig> => {
+
+  return customFetch<MobileConfig>(getGetMobileConfigUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetMobileConfigQueryKey = () => {
+    return [
+    `/api/mobile/config`
+    ] as const;
+    }
+
+
+export const getGetMobileConfigQueryOptions = <TData = Awaited<ReturnType<typeof getMobileConfig>>, TError = ErrorType<ErrorMessage>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMobileConfig>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetMobileConfigQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getMobileConfig>>> = ({ signal }) => getMobileConfig({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getMobileConfig>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetMobileConfigQueryResult = NonNullable<Awaited<ReturnType<typeof getMobileConfig>>>
+export type GetMobileConfigQueryError = ErrorType<ErrorMessage>
+
+
+/**
+ * @summary Get public mobile bootstrap configuration
+ */
+
+export function useGetMobileConfig<TData = Awaited<ReturnType<typeof getMobileConfig>>, TError = ErrorType<ErrorMessage>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMobileConfig>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetMobileConfigQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

@@ -8,6 +8,9 @@
     "preview": {
       "distribution": "internal",
       "environment": "preview",
+      "env": {
+        "EXPO_PUBLIC_DOMAIN": "www.dualystocks.com"
+      },
       "android": {
         "buildType": "apk",
         "image": "latest"
@@ -19,6 +22,9 @@
     "production": {
       "autoIncrement": true,
       "environment": "production",
+      "env": {
+        "EXPO_PUBLIC_DOMAIN": "www.dualystocks.com"
+      },
       "android": {
         "image": "latest"
       },

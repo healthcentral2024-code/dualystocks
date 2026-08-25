@@ -47,6 +47,7 @@ export * from './marketPulseResult';
 export * from './marketPulseResultMood';
 export * from './marketPulseSector';
 export * from './metricItem';
+export * from './mobileConfig';
 export * from './mutationOkResult';
 export * from './recentAnalysis';
 export * from './scoreCategory';

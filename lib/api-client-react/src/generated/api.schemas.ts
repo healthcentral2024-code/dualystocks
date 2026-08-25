@@ -9,6 +9,11 @@ export interface HealthStatus {
   status: string;
 }
 
+export interface MobileConfig {
+  /** @minLength 1 */
+  clerkPublishableKey: string;
+}
+
 export interface ErrorMessage {
   error: string;
 }

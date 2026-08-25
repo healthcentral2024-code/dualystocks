@@ -32,6 +32,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /mobile/config:
+    get:
+      operationId: getMobileConfig
+      tags: [health]
+      summary: Get public mobile bootstrap configuration
+      description: Returns the public Clerk key required to initialize the mobile app.
+      responses:
+        "200":
+          description: Mobile bootstrap configuration
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MobileConfig"
+        "503":
+          description: Mobile authentication is not configured
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
   /analysis/{ticker}:
     get:
       operationId: getAnalysis
@@ -486,6 +505,14 @@ components:
           type: string
       required:
         - status
+    MobileConfig:
+      type: object
+      properties:
+        clerkPublishableKey:
+          type: string
+          minLength: 1
+      required:
+        - clerkPublishableKey
     ErrorMessage:
       type: object
       properties:

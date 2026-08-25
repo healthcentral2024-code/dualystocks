@@ -18,6 +18,18 @@ export const HealthCheckResponse = zod.object({
 
 
 /**
+ * Returns the public Clerk key required to initialize the mobile app.
+ * @summary Get public mobile bootstrap configuration
+ */
+
+
+
+export const GetMobileConfigResponse = zod.object({
+  "clerkPublishableKey": zod.string().min(1)
+})
+
+
+/**
  * Resolves a ticker or company name, then fetches Finviz data and returns a simplified, plain-language analysis with scores.
  * @summary Get simplified analysis for a stock ticker or company name
  */
