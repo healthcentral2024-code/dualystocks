@@ -9,9 +9,7 @@ jobs:
       profile: production
     hooks:
       before_install_node_modules:
-        - run:
-            name: Use pnpm 10.26.1
-            command: |
-              corepack enable
-              corepack prepare pnpm@10.26.1 --activate
-              pnpm --version
+        - run: |
+            corepack enable
+            corepack prepare pnpm@10.26.1 --activate
+            pnpm --version
