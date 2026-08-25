@@ -9,7 +9,9 @@
       "distribution": "internal",
       "environment": "preview",
       "env": {
-        "EXPO_PUBLIC_DOMAIN": "www.dualystocks.com"
+        "EXPO_PUBLIC_DOMAIN": "www.dualystocks.com",
+        "EXPO_APPLE_TEAM_ID": "66QMXA2TB9",
+        "EXPO_APPLE_TEAM_TYPE": "COMPANY_OR_ORGANIZATION"
       },
       "android": {
         "buildType": "apk",
@@ -23,7 +25,9 @@
       "autoIncrement": true,
       "environment": "production",
       "env": {
-        "EXPO_PUBLIC_DOMAIN": "www.dualystocks.com"
+        "EXPO_PUBLIC_DOMAIN": "www.dualystocks.com",
+        "EXPO_APPLE_TEAM_ID": "66QMXA2TB9",
+        "EXPO_APPLE_TEAM_TYPE": "COMPANY_OR_ORGANIZATION"
       },
       "android": {
         "image": "latest"
