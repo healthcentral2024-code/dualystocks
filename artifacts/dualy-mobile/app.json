@@ -17,6 +17,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.dualystocks.mobile",
+      "appleTeamId": "66QMXA2TB9",
       "config": {
         "usesNonExemptEncryption": false
       }
