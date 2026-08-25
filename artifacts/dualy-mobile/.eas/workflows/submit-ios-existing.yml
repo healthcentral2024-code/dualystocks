@@ -7,3 +7,11 @@ jobs:
     params:
       build_id: 54bae954-1087-4d8e-a002-0206565cea83
       profile: production
+    hooks:
+      before_install_node_modules:
+        - run:
+            name: Use pnpm 10.26.1
+            command: |
+              corepack enable
+              corepack prepare pnpm@10.26.1 --activate
+              pnpm --version
