@@ -32,6 +32,18 @@
         }
       ],
       "expo-font",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "packagingOptions": {
+              "exclude": [
+                "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
+              ]
+            }
+          }
+        }
+      ],
       "expo-web-browser",
       "expo-secure-store"
     ],
