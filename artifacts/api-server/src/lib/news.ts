@@ -10,6 +10,7 @@ const MAX_HEADLINES = 10;
 const MAX_DISPLAY_NEWS = 3;
 const MAX_AGE_DAYS = 5;
 const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
+const HEADLINE_ENRICHMENT_TIMEOUT_MS = 30_000;
 
 export interface StockNews {
   title: string;
@@ -221,7 +222,10 @@ async function enrichHeadlines(
         },
       ],
     },
-    { signal: AbortSignal.timeout(15_000) },
+    // GPT-5 Mini can take a little over 15 seconds even for three short
+    // headlines. Do not replace a valid Spanish request with English source
+    // titles just because the previous timeout was too aggressive.
+    { signal: AbortSignal.timeout(HEADLINE_ENRICHMENT_TIMEOUT_MS) },
   );
 
   const raw = response.choices[0]?.message?.content ?? "";
