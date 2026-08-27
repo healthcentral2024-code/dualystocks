@@ -258,6 +258,40 @@ export const GetMarketPulseResponse = zod.object({
 
 
 /**
+ * Official daily 2-year and 10-year U.S. Treasury yields, daily changes, curve spread, and upcoming FOMC decision dates.
+ * @summary Treasury yields and upcoming Fed meetings
+ */
+export const GetRatesAndFedQueryParams = zod.object({
+  "lang": zod.enum(['es', 'en']).optional().describe('Response language (default es)')
+})
+
+export const getRatesAndFedResponseRatesMin = 2;
+export const getRatesAndFedResponseRatesMax = 2;
+
+export const getRatesAndFedResponseUpcomingMeetingsMax = 3;
+
+
+
+export const GetRatesAndFedResponse = zod.object({
+  "ratesDate": zod.string(),
+  "rates": zod.array(zod.object({
+  "maturity": zod.enum(['2Y', '10Y']),
+  "yield": zod.number(),
+  "changeBps": zod.number()
+})).min(getRatesAndFedResponseRatesMin).max(getRatesAndFedResponseRatesMax),
+  "spreadBps": zod.number(),
+  "interpretation": zod.string(),
+  "upcomingMeetings": zod.array(zod.object({
+  "decisionDate": zod.string(),
+  "hasPressConference": zod.boolean()
+})).max(getRatesAndFedResponseUpcomingMeetingsMax),
+  "updatedAt": zod.string(),
+  "treasurySourceUrl": zod.string(),
+  "fedSourceUrl": zod.string()
+})
+
+
+/**
  * Returns the 3 stocks the system currently recommends most, combining the strategy screen (market cap over $500M, analyst target upside), the technical buy score, and the daily strategy signal. Refreshes shortly after the 9:30 ET market open.
  * @summary Top 3 daily picks
  */

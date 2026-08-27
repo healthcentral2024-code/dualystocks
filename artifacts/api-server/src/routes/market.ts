@@ -1,7 +1,8 @@
 import { Router, type IRouter } from "express";
-import { GetMarketPulseResponse } from "@workspace/api-zod";
+import { GetMarketPulseResponse, GetRatesAndFedResponse } from "@workspace/api-zod";
 import { buildMarketPulse, type MarketPulse } from "../lib/marketPulse";
 import type { Lang } from "../lib/finviz";
+import { fetchRatesAndFed, type RatesAndFed } from "../lib/ratesFed";
 
 const router: IRouter = Router();
 
@@ -15,6 +16,7 @@ const FAILURE_TTL_MS = 2 * 60 * 1000; // total failure backoff
 const cache = new Map<Lang, { until: number; data: MarketPulse }>();
 const failedUntil = new Map<Lang, number>();
 const inFlight = new Map<Lang, Promise<MarketPulse>>();
+const ratesCache = new Map<Lang, { until: number; data: RatesAndFed }>();
 
 async function loadPulse(lang: Lang): Promise<MarketPulse> {
   const now = Date.now();
@@ -60,6 +62,31 @@ router.get("/market/pulse", async (req, res) => {
         lang === "en"
           ? "Could not load today's market pulse. Try again in a minute."
           : "No se pudo cargar el pulso del mercado. Intenta de nuevo en un minuto.",
+    });
+  }
+});
+
+router.get("/market/rates-fed", async (req, res) => {
+  const lang: Lang = req.query["lang"] === "en" ? "en" : "es";
+  const hit = ratesCache.get(lang);
+  if (hit && Date.now() < hit.until) {
+    res.json(GetRatesAndFedResponse.parse(hit.data));
+    return;
+  }
+  try {
+    const data = await fetchRatesAndFed(lang);
+    ratesCache.set(lang, { until: Date.now() + 6 * 60 * 60 * 1000, data });
+    res.json(GetRatesAndFedResponse.parse(data));
+  } catch (err) {
+    req.log.warn({ err }, "Could not load official rates and Fed calendar");
+    if (hit) {
+      res.json(GetRatesAndFedResponse.parse(hit.data));
+      return;
+    }
+    res.status(502).json({
+      error: lang === "en"
+        ? "Official rates data is temporarily unavailable."
+        : "Los datos oficiales de tasas no están disponibles temporalmente.",
     });
   }
 });

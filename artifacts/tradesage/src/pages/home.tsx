@@ -21,6 +21,7 @@ import { useSubscription } from "@/pages/subscribe";
 import { useFavorites } from "@/hooks/use-favorites";
 import { TopPicksSection } from "@/components/top-picks-section";
 import { MarketPulseSection } from "@/components/market-pulse-section";
+import { RatesFedSection } from "@/components/rates-fed-section";
 import { Star } from "lucide-react";
 import { cn, formatCurrency, formatPercent } from "@/lib/utils";
 
@@ -337,6 +338,9 @@ export default function Home() {
                 {t("homeSearchButton")}
               </Button>
             </form>
+
+            {/* Official Treasury yields and upcoming Fed decisions */}
+            <RatesFedSection />
 
             {/* Today's market pulse: what is moving the market, in plain words */}
             <MarketPulseSection />

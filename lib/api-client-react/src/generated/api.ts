@@ -29,6 +29,7 @@ import type {
   GetChartAnalysisParams,
   GetFavoritesParams,
   GetMarketPulseParams,
+  GetRatesAndFedParams,
   GetScreenerParams,
   GetSectorTrendParams,
   GetTopPicksParams,
@@ -37,6 +38,7 @@ import type {
   MarketPulseResult,
   MobileConfig,
   MutationOkResult,
+  RatesAndFedResult,
   RecentAnalysis,
   ScreenerResult,
   SectorTrendResult,
@@ -742,6 +744,91 @@ export function useGetMarketPulse<TData = Awaited<ReturnType<typeof getMarketPul
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetMarketPulseQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getGetRatesAndFedUrl = (params?: GetRatesAndFedParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/market/rates-fed?${stringifiedParams}` : `/api/market/rates-fed`
+}
+
+/**
+ * Official daily 2-year and 10-year U.S. Treasury yields, daily changes, curve spread, and upcoming FOMC decision dates.
+ * @summary Treasury yields and upcoming Fed meetings
+ */
+export const getRatesAndFed = async (params?: GetRatesAndFedParams, options?: Parameters<typeof customFetch>[1]): Promise<RatesAndFedResult> => {
+
+  return customFetch<RatesAndFedResult>(getGetRatesAndFedUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetRatesAndFedQueryKey = (params?: GetRatesAndFedParams,) => {
+    return [
+    `/api/market/rates-fed`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getGetRatesAndFedQueryOptions = <TData = Awaited<ReturnType<typeof getRatesAndFed>>, TError = ErrorType<ErrorMessage>>(params?: GetRatesAndFedParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getRatesAndFed>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetRatesAndFedQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getRatesAndFed>>> = ({ signal }) => getRatesAndFed(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getRatesAndFed>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetRatesAndFedQueryResult = NonNullable<Awaited<ReturnType<typeof getRatesAndFed>>>
+export type GetRatesAndFedQueryError = ErrorType<ErrorMessage>
+
+
+/**
+ * @summary Treasury yields and upcoming Fed meetings
+ */
+
+export function useGetRatesAndFed<TData = Awaited<ReturnType<typeof getRatesAndFed>>, TError = ErrorType<ErrorMessage>>(
+ params?: GetRatesAndFedParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getRatesAndFed>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetRatesAndFedQueryOptions(params,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

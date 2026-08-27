@@ -302,6 +302,33 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorMessage"
+  /market/rates-fed:
+    get:
+      operationId: getRatesAndFed
+      tags: [analysis]
+      summary: Treasury yields and upcoming Fed meetings
+      description: Official daily 2-year and 10-year U.S. Treasury yields, daily changes, curve spread, and upcoming FOMC decision dates.
+      parameters:
+        - name: lang
+          in: query
+          required: false
+          description: Response language (default es)
+          schema:
+            type: string
+            enum: [es, en]
+      responses:
+        "200":
+          description: Rates and Fed calendar
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RatesAndFedResult"
+        "502":
+          description: Official source temporarily unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
   /top-picks:
     get:
       operationId: getTopPicks
@@ -996,6 +1023,52 @@ components:
           items:
             $ref: "#/components/schemas/MarketPulseNews"
         updatedAt:
+          type: string
+    TreasuryRate:
+      type: object
+      required: [maturity, yield, changeBps]
+      properties:
+        maturity:
+          type: string
+          enum: [2Y, 10Y]
+        yield:
+          type: number
+        changeBps:
+          type: number
+    FedMeeting:
+      type: object
+      required: [decisionDate, hasPressConference]
+      properties:
+        decisionDate:
+          type: string
+        hasPressConference:
+          type: boolean
+    RatesAndFedResult:
+      type: object
+      required: [ratesDate, rates, spreadBps, interpretation, upcomingMeetings, updatedAt, treasurySourceUrl, fedSourceUrl]
+      properties:
+        ratesDate:
+          type: string
+        rates:
+          type: array
+          minItems: 2
+          maxItems: 2
+          items:
+            $ref: "#/components/schemas/TreasuryRate"
+        spreadBps:
+          type: number
+        interpretation:
+          type: string
+        upcomingMeetings:
+          type: array
+          maxItems: 3
+          items:
+            $ref: "#/components/schemas/FedMeeting"
+        updatedAt:
+          type: string
+        treasurySourceUrl:
+          type: string
+        fedSourceUrl:
           type: string
     RecentAnalysis:
       type: object

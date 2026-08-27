@@ -376,6 +376,41 @@ export interface MarketPulseResult {
   updatedAt: string;
 }
 
+export type TreasuryRateMaturity = typeof TreasuryRateMaturity[keyof typeof TreasuryRateMaturity];
+
+
+export const TreasuryRateMaturity = {
+  '2Y': '2Y',
+  '10Y': '10Y',
+} as const;
+
+export interface TreasuryRate {
+  maturity: TreasuryRateMaturity;
+  yield: number;
+  changeBps: number;
+}
+
+export interface FedMeeting {
+  decisionDate: string;
+  hasPressConference: boolean;
+}
+
+export interface RatesAndFedResult {
+  ratesDate: string;
+  /**
+     * @minItems 2
+     * @maxItems 2
+     */
+  rates: TreasuryRate[];
+  spreadBps: number;
+  interpretation: string;
+  /** @maxItems 3 */
+  upcomingMeetings: FedMeeting[];
+  updatedAt: string;
+  treasurySourceUrl: string;
+  fedSourceUrl: string;
+}
+
 export interface RecentAnalysis {
   ticker: string;
   companyName: string;
@@ -676,6 +711,21 @@ export type GetMarketPulseLang = typeof GetMarketPulseLang[keyof typeof GetMarke
 
 
 export const GetMarketPulseLang = {
+  es: 'es',
+  en: 'en',
+} as const;
+
+export type GetRatesAndFedParams = {
+/**
+ * Response language (default es)
+ */
+lang?: GetRatesAndFedLang;
+};
+
+export type GetRatesAndFedLang = typeof GetRatesAndFedLang[keyof typeof GetRatesAndFedLang];
+
+
+export const GetRatesAndFedLang = {
   es: 'es',
   en: 'en',
 } as const;
