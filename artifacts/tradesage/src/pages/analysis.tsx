@@ -267,6 +267,7 @@ export default function Analysis() {
         {/* Trade Calculator */}
         <TradeCalculator
           key={data.ticker}
+          ticker={data.ticker}
           currentPrice={data.price} 
           analystTargetPrice={data.targetPrice} 
         />
