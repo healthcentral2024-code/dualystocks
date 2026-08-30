@@ -17,6 +17,7 @@ import { TradingChart } from "@/components/trading-chart";
 import { useLanguage } from "@/lib/language";
 import { getLeveragedInfo } from "@/lib/leveraged-etfs";
 import { frameKey, trendKey } from "@/lib/translations";
+import { TradeCalculator } from "@/components/trade-calculator";
 import { formatCurrency, formatPercent, getScoreColors, cn } from "@/lib/utils";
 
 function FavoriteButton({ ticker, showTicker = false }: { ticker: string; showTicker?: boolean }) {
@@ -262,6 +263,13 @@ export default function Analysis() {
             </div>
           </div>
         </div>
+
+        {/* Trade Calculator */}
+        <TradeCalculator
+          key={data.ticker}
+          currentPrice={data.price} 
+          analystTargetPrice={data.targetPrice} 
+        />
 
         {/* ×2 / inverse ETF banner: explains the product and gives a derived reading */}
         {leveraged && (
