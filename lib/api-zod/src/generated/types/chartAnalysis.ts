@@ -6,6 +6,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { Candle } from './candle';
+import type { OptionsHistoricalOutlook } from './optionsHistoricalOutlook';
 import type { SwingStats } from './swingStats';
 import type { TechnicalReading } from './technicalReading';
 
@@ -14,5 +15,6 @@ export interface ChartAnalysis {
   /** Daily candles, oldest first (up to 5 years) */
   candles: Candle[];
   technical: TechnicalReading;
+  optionsOutlook: OptionsHistoricalOutlook;
   swing?: SwingStats;
 }

@@ -18,6 +18,7 @@ import { useLanguage } from "@/lib/language";
 import { getLeveragedInfo } from "@/lib/leveraged-etfs";
 import { frameKey, trendKey } from "@/lib/translations";
 import { TradeCalculator } from "@/components/trade-calculator";
+import { OptionsOutlook } from "@/components/options-outlook";
 import { formatCurrency, formatPercent, getScoreColors, cn } from "@/lib/utils";
 
 function FavoriteButton({ ticker, showTicker = false }: { ticker: string; showTicker?: boolean }) {
@@ -263,6 +264,10 @@ export default function Analysis() {
             </div>
           </div>
         </div>
+
+        {chartData?.optionsOutlook && (
+          <OptionsOutlook outlook={chartData.optionsOutlook} />
+        )}
 
         {/* Trade Calculator */}
         <TradeCalculator

@@ -6,7 +6,7 @@ import {
   GetChartAnalysisQueryParams,
   GetTrendAnalysisQueryParams,
 } from "@workspace/api-zod";
-import { fetchHistory, buildTechnicalReading, buildTrendAnalysis, computeSwingStats, computeMacd, type MacdReading } from "../lib/technical";
+import { fetchHistory, buildTechnicalReading, buildTrendAnalysis, computeSwingStats, computeMacd, computeOptionsHistoricalOutlook, type MacdReading } from "../lib/technical";
 import { eq, desc } from "drizzle-orm";
 import { db, analysesTable } from "@workspace/db";
 import {
@@ -205,11 +205,13 @@ router.get("/analysis/:ticker/chart", async (req, res) => {
     const trimmed = candles.slice(-1260);
     const technical = buildTechnicalReading(candles, lang);
     const swing = computeSwingStats(candles);
+    const optionsOutlook = computeOptionsHistoricalOutlook(candles, technical);
     res.json(
       GetChartAnalysisResponse.parse({
         ticker,
         candles: trimmed,
         technical,
+        optionsOutlook,
         ...(swing ? { swing } : {}),
       }),
     );

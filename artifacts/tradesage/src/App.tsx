@@ -162,7 +162,6 @@ function App() {
 
   return (
     <ClerkProvider 
-      key={lang}
       publishableKey={clerkPubKey} 
       proxyUrl={clerkProxyUrl}
       signInUrl={`${basePath}/sign-in`}

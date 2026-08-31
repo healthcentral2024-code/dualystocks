@@ -244,6 +244,226 @@ export interface SwingStats {
   sampleDays: number;
 }
 
+export type OptionsOutlookReason =
+  | "bullish_trend"
+  | "bearish_trend"
+  | "sideways_trend"
+  | "rsi_overbought"
+  | "rsi_oversold"
+  | "rsi_balanced"
+  | "room_to_resistance"
+  | "limited_room_to_resistance"
+  | "room_to_support"
+  | "limited_room_to_support"
+  | "elevated_historical_volatility"
+  | "normal_historical_volatility";
+
+export interface OptionsDirectionalOutlook {
+  status: "favorable" | "unfavorable";
+  score: number;
+  reasons: OptionsOutlookReason[];
+}
+
+export interface OptionsHorizonOutlook {
+  horizon: "week" | "two_weeks" | "month";
+  tradingDays: 5 | 10 | 21;
+  expectedMove: number;
+  expectedMovePercent: number;
+  lowerPrice: number;
+  upperPrice: number;
+  call: OptionsDirectionalOutlook;
+  put: OptionsDirectionalOutlook;
+}
+
+export interface OptionsHistoricalOutlook {
+  available: boolean;
+  sampleDays: number;
+  realizedVolatilityPercent: number | null;
+  volatilityPercentile: number | null;
+  horizons: OptionsHorizonOutlook[];
+}
+
+function sampleStandardDeviation(values: number[]): number | null {
+  if (values.length < 2) return null;
+  const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
+  const variance =
+    values.reduce((sum, value) => sum + (value - mean) ** 2, 0) /
+    (values.length - 1);
+  return Math.sqrt(variance);
+}
+
+function annualizedRealizedVolatility(closes: number[]): number | null {
+  if (closes.length < 21 || closes.some((close) => close <= 0)) return null;
+  const returns: number[] = [];
+  for (let index = 1; index < closes.length; index++) {
+    returns.push(Math.log(closes[index]! / closes[index - 1]!));
+  }
+  const deviation = sampleStandardDeviation(returns);
+  return deviation === null ? null : deviation * Math.sqrt(252);
+}
+
+/**
+ * Free, historical context for directional CALL/PUT scenarios.
+ * This deliberately does not value option premiums: it uses stock-price history
+ * only and returns at most one favorable direction per horizon.
+ */
+export function computeOptionsHistoricalOutlook(
+  candles: Candle[],
+  technical: TechnicalReading,
+): OptionsHistoricalOutlook {
+  const recent = candles.slice(-252);
+  const closes = recent.map((candle) => candle.close);
+  const price = closes.at(-1) ?? 0;
+  if (recent.length < 60 || price <= 0) {
+    return {
+      available: false,
+      sampleDays: recent.length,
+      realizedVolatilityPercent: null,
+      volatilityPercentile: null,
+      horizons: [],
+    };
+  }
+
+  const currentVolatility = annualizedRealizedVolatility(closes.slice(-21));
+  if (currentVolatility === null || !Number.isFinite(currentVolatility)) {
+    return {
+      available: false,
+      sampleDays: recent.length,
+      realizedVolatilityPercent: null,
+      volatilityPercentile: null,
+      horizons: [],
+    };
+  }
+
+  const rollingVolatilities: number[] = [];
+  for (let end = 21; end <= closes.length; end++) {
+    const volatility = annualizedRealizedVolatility(closes.slice(end - 21, end));
+    if (volatility !== null && Number.isFinite(volatility)) {
+      rollingVolatilities.push(volatility);
+    }
+  }
+  const volatilityPercentile = rollingVolatilities.length
+    ? (rollingVolatilities.filter((value) => value <= currentVolatility).length /
+        rollingVolatilities.length) *
+      100
+    : null;
+
+  const round2 = (value: number) => Math.round(value * 100) / 100;
+  const clampScore = (value: number) => Math.max(0, Math.min(100, Math.round(value)));
+  const horizons: Array<{
+    horizon: OptionsHorizonOutlook["horizon"];
+    tradingDays: OptionsHorizonOutlook["tradingDays"];
+  }> = [
+    { horizon: "week", tradingDays: 5 },
+    { horizon: "two_weeks", tradingDays: 10 },
+    { horizon: "month", tradingDays: 21 },
+  ];
+
+  return {
+    available: true,
+    sampleDays: recent.length,
+    realizedVolatilityPercent: round2(currentVolatility * 100),
+    volatilityPercentile:
+      volatilityPercentile === null ? null : round2(volatilityPercentile),
+    horizons: horizons.map(({ horizon, tradingDays }) => {
+      const expectedMove = price * currentVolatility * Math.sqrt(tradingDays / 252);
+      let callScore = 50;
+      let putScore = 50;
+      const callReasons: OptionsOutlookReason[] = [];
+      const putReasons: OptionsOutlookReason[] = [];
+
+      if (technical.trend === "alcista") {
+        callScore += 25;
+        putScore -= 25;
+        callReasons.push("bullish_trend");
+        putReasons.push("bullish_trend");
+      } else if (technical.trend === "bajista") {
+        callScore -= 25;
+        putScore += 25;
+        callReasons.push("bearish_trend");
+        putReasons.push("bearish_trend");
+      } else {
+        callScore -= 10;
+        putScore -= 10;
+        callReasons.push("sideways_trend");
+        putReasons.push("sideways_trend");
+      }
+
+      if (technical.rsi !== null && technical.rsi >= 70) {
+        callScore -= 18;
+        putScore += 8;
+        callReasons.push("rsi_overbought");
+        putReasons.push("rsi_overbought");
+      } else if (technical.rsi !== null && technical.rsi <= 30) {
+        callScore += 8;
+        putScore -= 18;
+        callReasons.push("rsi_oversold");
+        putReasons.push("rsi_oversold");
+      } else {
+        callReasons.push("rsi_balanced");
+        putReasons.push("rsi_balanced");
+      }
+
+      const resistanceRoom =
+        technical.resistanceLevel !== null
+          ? Math.max(0, technical.resistanceLevel - price)
+          : 0;
+      if (resistanceRoom >= expectedMove * 0.75) {
+        callScore += 10;
+        callReasons.push("room_to_resistance");
+      } else {
+        callScore -= 12;
+        callReasons.push("limited_room_to_resistance");
+      }
+
+      const supportRoom =
+        technical.supportLevel !== null
+          ? Math.max(0, price - technical.supportLevel)
+          : 0;
+      if (supportRoom >= expectedMove * 0.75) {
+        putScore += 10;
+        putReasons.push("room_to_support");
+      } else {
+        putScore -= 12;
+        putReasons.push("limited_room_to_support");
+      }
+
+      const volatilityReason: OptionsOutlookReason =
+        volatilityPercentile !== null && volatilityPercentile >= 80
+          ? "elevated_historical_volatility"
+          : "normal_historical_volatility";
+      callReasons.push(volatilityReason);
+      putReasons.push(volatilityReason);
+
+      const finalCallScore = clampScore(callScore);
+      const finalPutScore = clampScore(putScore);
+      const callFavorable =
+        finalCallScore >= 60 && finalCallScore >= finalPutScore + 10;
+      const putFavorable =
+        finalPutScore >= 60 && finalPutScore >= finalCallScore + 10;
+
+      return {
+        horizon,
+        tradingDays,
+        expectedMove: round2(expectedMove),
+        expectedMovePercent: round2((expectedMove / price) * 100),
+        lowerPrice: round2(Math.max(0, price - expectedMove)),
+        upperPrice: round2(price + expectedMove),
+        call: {
+          status: callFavorable ? "favorable" : "unfavorable",
+          score: finalCallScore,
+          reasons: callReasons,
+        },
+        put: {
+          status: putFavorable ? "favorable" : "unfavorable",
+          score: finalPutScore,
+          reasons: putReasons,
+        },
+      };
+    }),
+  };
+}
+
 /**
  * Average dollar swing behavior from recent daily candles.
  * Groups consecutive up days / down days (close-to-close) into swings and

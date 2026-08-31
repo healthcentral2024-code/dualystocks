@@ -26,6 +26,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { MiniChart } from '@/components/Chart';
 import { Button } from '@/components/ui/Button';
+import { OptionsOutlook } from '@/components/OptionsOutlook';
 
 export default function AnalysisPage() {
   const { ticker } = useLocalSearchParams<{ ticker: string }>();
@@ -221,6 +222,10 @@ export default function AnalysisPage() {
               </View>
             )}
           </Card>
+        )}
+
+        {chart.data?.optionsOutlook && (
+          <OptionsOutlook outlook={chart.data.optionsOutlook} lang={lang} />
         )}
 
         <Text style={[styles.sectionTitle, { color: c.foreground }]}>{lang === 'es' ? 'Veredicto' : 'Verdict'}</Text>

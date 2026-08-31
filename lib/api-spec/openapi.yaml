@@ -800,9 +800,94 @@ components:
         sampleDays:
           type: number
           description: Number of daily candles used for the calculation
+    OptionsDirectionalOutlook:
+      type: object
+      required: [status, score, reasons]
+      properties:
+        status:
+          type: string
+          enum: [favorable, unfavorable]
+        score:
+          type: number
+          minimum: 0
+          maximum: 100
+        reasons:
+          type: array
+          items:
+            type: string
+            enum:
+              [
+                bullish_trend,
+                bearish_trend,
+                sideways_trend,
+                rsi_overbought,
+                rsi_oversold,
+                rsi_balanced,
+                room_to_resistance,
+                limited_room_to_resistance,
+                room_to_support,
+                limited_room_to_support,
+                elevated_historical_volatility,
+                normal_historical_volatility,
+              ]
+    OptionsHorizonOutlook:
+      type: object
+      required:
+        [
+          horizon,
+          tradingDays,
+          expectedMove,
+          expectedMovePercent,
+          lowerPrice,
+          upperPrice,
+          call,
+          put,
+        ]
+      properties:
+        horizon:
+          type: string
+          enum: [week, two_weeks, month]
+        tradingDays:
+          type: number
+          enum: [5, 10, 21]
+        expectedMove:
+          type: number
+        expectedMovePercent:
+          type: number
+        lowerPrice:
+          type: number
+        upperPrice:
+          type: number
+        call:
+          $ref: "#/components/schemas/OptionsDirectionalOutlook"
+        put:
+          $ref: "#/components/schemas/OptionsDirectionalOutlook"
+    OptionsHistoricalOutlook:
+      type: object
+      required:
+        [
+          available,
+          sampleDays,
+          realizedVolatilityPercent,
+          volatilityPercentile,
+          horizons,
+        ]
+      properties:
+        available:
+          type: boolean
+        sampleDays:
+          type: number
+        realizedVolatilityPercent:
+          type: ["number", "null"]
+        volatilityPercentile:
+          type: ["number", "null"]
+        horizons:
+          type: array
+          items:
+            $ref: "#/components/schemas/OptionsHorizonOutlook"
     ChartAnalysis:
       type: object
-      required: [ticker, candles, technical]
+      required: [ticker, candles, technical, optionsOutlook]
       properties:
         ticker:
           type: string
@@ -813,6 +898,8 @@ components:
             $ref: "#/components/schemas/Candle"
         technical:
           $ref: "#/components/schemas/TechnicalReading"
+        optionsOutlook:
+          $ref: "#/components/schemas/OptionsHistoricalOutlook"
         swing:
           $ref: "#/components/schemas/SwingStats"
     FrameTrend:

@@ -100,6 +100,14 @@ export const GetChartAnalysisQueryParams = zod.object({
   "lang": zod.enum(['es', 'en']).optional().describe('Response language (default es)')
 })
 
+export const getChartAnalysisResponseOptionsOutlookHorizonsItemCallScoreMin = 0;
+export const getChartAnalysisResponseOptionsOutlookHorizonsItemCallScoreMax = 100;
+
+export const getChartAnalysisResponseOptionsOutlookHorizonsItemPutScoreMin = 0;
+export const getChartAnalysisResponseOptionsOutlookHorizonsItemPutScoreMax = 100;
+
+
+
 export const GetChartAnalysisResponse = zod.object({
   "ticker": zod.string(),
   "candles": zod.array(zod.object({
@@ -120,6 +128,30 @@ export const GetChartAnalysisResponse = zod.object({
   "resistanceLevel": zod.number().nullish(),
   "sma50": zod.number().nullish(),
   "sma200": zod.number().nullish()
+}),
+  "optionsOutlook": zod.object({
+  "available": zod.boolean(),
+  "sampleDays": zod.number(),
+  "realizedVolatilityPercent": zod.number().nullable(),
+  "volatilityPercentile": zod.number().nullable(),
+  "horizons": zod.array(zod.object({
+  "horizon": zod.enum(['week', 'two_weeks', 'month']),
+  "tradingDays": zod.union([zod.literal(5),zod.literal(10),zod.literal(21)]),
+  "expectedMove": zod.number(),
+  "expectedMovePercent": zod.number(),
+  "lowerPrice": zod.number(),
+  "upperPrice": zod.number(),
+  "call": zod.object({
+  "status": zod.enum(['favorable', 'unfavorable']),
+  "score": zod.number().min(getChartAnalysisResponseOptionsOutlookHorizonsItemCallScoreMin).max(getChartAnalysisResponseOptionsOutlookHorizonsItemCallScoreMax),
+  "reasons": zod.array(zod.enum(['bullish_trend', 'bearish_trend', 'sideways_trend', 'rsi_overbought', 'rsi_oversold', 'rsi_balanced', 'room_to_resistance', 'limited_room_to_resistance', 'room_to_support', 'limited_room_to_support', 'elevated_historical_volatility', 'normal_historical_volatility']))
+}),
+  "put": zod.object({
+  "status": zod.enum(['favorable', 'unfavorable']),
+  "score": zod.number().min(getChartAnalysisResponseOptionsOutlookHorizonsItemPutScoreMin).max(getChartAnalysisResponseOptionsOutlookHorizonsItemPutScoreMax),
+  "reasons": zod.array(zod.enum(['bullish_trend', 'bearish_trend', 'sideways_trend', 'rsi_overbought', 'rsi_oversold', 'rsi_balanced', 'room_to_resistance', 'limited_room_to_resistance', 'room_to_support', 'limited_room_to_support', 'elevated_historical_volatility', 'normal_historical_volatility']))
+})
+}))
 }),
   "swing": zod.object({
   "avgDailyMove": zod.number().describe('Average absolute close-to-close move per trading day, in dollars'),

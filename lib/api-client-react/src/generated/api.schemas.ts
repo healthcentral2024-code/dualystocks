@@ -200,11 +200,87 @@ export interface SwingStats {
   sampleDays: number;
 }
 
+export type OptionsDirectionalOutlookStatus = typeof OptionsDirectionalOutlookStatus[keyof typeof OptionsDirectionalOutlookStatus];
+
+
+export const OptionsDirectionalOutlookStatus = {
+  favorable: 'favorable',
+  unfavorable: 'unfavorable',
+} as const;
+
+export type OptionsDirectionalOutlookReasonsItem = typeof OptionsDirectionalOutlookReasonsItem[keyof typeof OptionsDirectionalOutlookReasonsItem];
+
+
+export const OptionsDirectionalOutlookReasonsItem = {
+  bullish_trend: 'bullish_trend',
+  bearish_trend: 'bearish_trend',
+  sideways_trend: 'sideways_trend',
+  rsi_overbought: 'rsi_overbought',
+  rsi_oversold: 'rsi_oversold',
+  rsi_balanced: 'rsi_balanced',
+  room_to_resistance: 'room_to_resistance',
+  limited_room_to_resistance: 'limited_room_to_resistance',
+  room_to_support: 'room_to_support',
+  limited_room_to_support: 'limited_room_to_support',
+  elevated_historical_volatility: 'elevated_historical_volatility',
+  normal_historical_volatility: 'normal_historical_volatility',
+} as const;
+
+export interface OptionsDirectionalOutlook {
+  status: OptionsDirectionalOutlookStatus;
+  /**
+     * @minimum 0
+     * @maximum 100
+     */
+  score: number;
+  reasons: OptionsDirectionalOutlookReasonsItem[];
+}
+
+export type OptionsHorizonOutlookHorizon = typeof OptionsHorizonOutlookHorizon[keyof typeof OptionsHorizonOutlookHorizon];
+
+
+export const OptionsHorizonOutlookHorizon = {
+  week: 'week',
+  two_weeks: 'two_weeks',
+  month: 'month',
+} as const;
+
+export type OptionsHorizonOutlookTradingDays = typeof OptionsHorizonOutlookTradingDays[keyof typeof OptionsHorizonOutlookTradingDays];
+
+
+export const OptionsHorizonOutlookTradingDays = {
+  NUMBER_5: 5,
+  NUMBER_10: 10,
+  NUMBER_21: 21,
+} as const;
+
+export interface OptionsHorizonOutlook {
+  horizon: OptionsHorizonOutlookHorizon;
+  tradingDays: OptionsHorizonOutlookTradingDays;
+  expectedMove: number;
+  expectedMovePercent: number;
+  lowerPrice: number;
+  upperPrice: number;
+  call: OptionsDirectionalOutlook;
+  put: OptionsDirectionalOutlook;
+}
+
+export interface OptionsHistoricalOutlook {
+  available: boolean;
+  sampleDays: number;
+  /** @nullable */
+  realizedVolatilityPercent: number | null;
+  /** @nullable */
+  volatilityPercentile: number | null;
+  horizons: OptionsHorizonOutlook[];
+}
+
 export interface ChartAnalysis {
   ticker: string;
   /** Daily candles, oldest first (up to 5 years) */
   candles: Candle[];
   technical: TechnicalReading;
+  optionsOutlook: OptionsHistoricalOutlook;
   swing?: SwingStats;
 }
 
