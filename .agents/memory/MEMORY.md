@@ -7,3 +7,8 @@
 - [SEC earnings dates](sec-earnings-dates.md) — EDGAR Item 2.02 gives the official last earnings date; SEC requests need the app's public contact in User-Agent.
 - [LLM batch item identity](llm-batch-item-identity.md) — batch enrichment must round-trip stable IDs and exact source text; never trust output order for user-visible classifications.
 - [Clerk Expo Core 2 mismatch](clerk-expo-core2-mismatch.md) — Clerk Expo 2.x can resolve incompatible React/shared packages; use Clerk Expo 3.x for Expo SDK 54.
+- [GitHub connector source sync](github-connector-source-sync.md) — bootstrap empty repos, batch source commits, and keep generated media out of code-only GitHub mirrors.
+- [Expo iOS credential bootstrap](expo-ios-credential-bootstrap.md) — MCP-triggered EAS builds are non-interactive; first iOS signing validation must be completed interactively.
+- [Google Play submission path](google-play-submission.md) — the Replit connector cannot reach Android Publisher; avoid blind EAS retries when duplicate service credentials conflict.
+- [Official rates feeds](official-rates-feeds.md) — Treasury feeds can be slow; fetch monthly data, cache it, and consume parallel response bodies before timeout signals expire.
+- [Language changes without remount](language-remount-state.md) — update Clerk localization in place; remounting the provider can blank protected routes and discard UI state.
